@@ -3,12 +3,7 @@ package com.kotlin.course.poject.SavingOfNotes.note.controller
 import com.kotlin.course.poject.SavingOfNotes.note.model.Note
 import com.kotlin.course.poject.SavingOfNotes.note.repository.INoteRepository
 import org.bson.types.ObjectId
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.Instant
 
 // https://notes.com/notes/...
@@ -52,6 +47,11 @@ class NoteController (private val repository: INoteRepository) {
         return repository.findByOwnerId(ObjectId(ownerId)).map {
                 it.toResponse()
         }
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteById(@PathVariable id: String) {
+        repository.deleteById(ObjectId(id))
     }
 
     private fun Note.toResponse(): NoteController.NoteResponse{
